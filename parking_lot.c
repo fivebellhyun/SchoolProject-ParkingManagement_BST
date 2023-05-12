@@ -99,7 +99,7 @@ CarNode* get_max(CarNode* node, CarNode** maxNode) {
     }
 }
 
-CarNode* delete_node(CarNode* node, int data) {
+CarNode* delete_node(CarNode* node, int data, char* parkingArray) {
     if(node == NULL){
         return NULL;
     }
@@ -107,6 +107,7 @@ CarNode* delete_node(CarNode* node, int data) {
     if(node->data == data){
         CarNode* deleteNode = node;
         if(node->left == NULL && node->right == NULL) {
+            parkingArray[node->where-1] = 0;
             node = NULL;
         } else if(node->left != NULL && node->right == NULL) {
             node = node->left;
@@ -124,9 +125,9 @@ CarNode* delete_node(CarNode* node, int data) {
         return node;
     } else {
         if(node->data > data) {
-            node->left = delete_node(node->left, data);
+            node->left = delete_node(node->left, data, parkingArray);
         } else {
-            node->right = delete_node(node->right, data);
+            node->right = delete_node(node->right, data, parkingArray);
         }
         return node;
     }
@@ -277,7 +278,7 @@ int main(){
             int onlyNum = extract_number(str);
             wchar_t hangle = extract_korean_char(str);
             long long int result = combine_int(onlyNum, hangle);
-            mytree = delete_node(mytree, result);
+            mytree = delete_node(mytree, result, parkingArray);
         }
     }
 }
